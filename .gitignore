@@ -1,0 +1,12 @@
+/temp/
+/physcial-exp/
+/dataset/
+/flagged/
+/weights/
+/output/
+/cd.csv
+/wandb/
+/.idea/
+/*.csv/
+/.ipynb_checkpoints
+/patches
