@@ -97,6 +97,7 @@ class yolov2(BaseConfig):
     def __init__(self):
         super().__init__()
 
+        # darknet模型专用
         self.cfgfile = "cfg/yolo.cfg"
         self.weights = "weights/yolov2.weights"
         self.lab_dir = "dataset/inria/Train/pos/yolo-labels_yolov2"
@@ -108,6 +109,7 @@ class yolov2(BaseConfig):
         self.loss_target = lambda obj, cls: obj
         from darknetv2 import Darknet
 
+        # 模型加载（darknet yolov2/v3/v4）
         self.model = Darknet(self.cfgfile)
         self.model.load_weights(self.weights)
         self.model = self.model.eval().cuda()
@@ -167,7 +169,7 @@ class yolov3_dota(BaseConfig):
         self.max_tv = 0.165
         self.batch_size = 2
         self.loss_target = lambda obj, cls: obj
-        self.num_classes = 16
+        self.num_classes = len(dota_v1_5)
         self.imgsz = (1024, 1024)
         self.img_size = 1024
         self.scale = 0.1
@@ -360,49 +362,72 @@ class yolov5s_st(BaseConfig):
     def __init__(self):
         super().__init__()
 
+        # 补丁名字
         self.patch_name = 'yolov5s_st'
+        # 平滑损失最大值
         self.max_tv = 0.165
 
         self.loss_target = lambda obj, cls: obj
 
+        # 模型权重路径
         self.weights = 'weights/yolov5s_st.pt'
+        # 训练集和验证集
         self.img_dir = 'dataset/fushi/train/images'
         self.lab_dir = "dataset/fushi/train/labels_yolov5s_st"
         self.val_img_dir = 'dataset/fushi/val/images'
         self.val_lab_dir = "dataset/fushi/val/labels_yolov5s_st"
 
+        # 提示词
         self.prompt = ['camouflage, sea']
+        # 逆向提示词
         self.negative_prompt = ['']
 
+        # 补丁相对检测框比例
         self.scale = 0.2
+        # 补丁增强相关
+        # 旋转角度
         self.minangle = -45
         self.maxangle = 45
+        # 亮度
         self.min_brightness = -0.3
         self.max_brightness = 0.3
+        # 对比度
         self.min_contrast = 0.7
         self.max_contrast = 1.3
+        # 噪声比例
         self.noise_factor = 0.25
+        # 随机位移
         self.offsetx = 0.05
         self.offsety = 0.05
+        # 是否启用随机偏移
         self.rand_loc = True
+        # 是否适应矩形
         self.by_rect = False
 
+        # Stable Diffusion相关参数
         self.num_inference_steps = 3
         self.guidance_scale = 5
 
+        # 模型支持的类别名称
         self.class_names = sandtable
         self.mode = 'yolov5'
+        # 类别数量
         self.num_classes = 7
+        # 攻击类别
         self.cls_id = 3
         self.batch_size = 16
+        # 模型输入图像大小
         self.imgsz = (640, 640)
         self.img_size = 640
+        # NMS置信度和IOU阈值
         self.conf_thres = 0.4  # confidence threshold
         self.iou_thres = 0.45  # NMS IOU threshold
 
+        # 模型加载（ultralytics yolov3/v5/v8）
         self.model = DetectMultiBackend(self.weights,
                                         device=self.device,
                                         dnn=False).eval()
+        # 损失函数选择
         self.prob_extractor = MaxProbExtractor_yolov5(self.cls_id, self.num_classes, self.loss_target)
         # self.prob_extractor = MeanProbExtractor_yolov5(self.cls_id, self.num_classes,
         #                                                self.loss_target, self.conf_thres,

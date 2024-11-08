@@ -312,7 +312,7 @@ def main():
     # for p in ['yolov3_dota']:
     # for s in [0.05, 0.10, 0.15, 0.20, 0.25, 0.30]:
     # trainer = PatchTrainer(p)
-    cfg = patch_config.patch_configs['yolov5s_dotast']()
+    cfg = patch_config.yolov3_dota()
     # cfg.batch_size = 1
     trainer = PatchTrainer(cfg)
     wandb.init(project="Adversarial-attack", config=dict(
