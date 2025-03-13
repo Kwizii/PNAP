@@ -10,3 +10,5 @@
 /*.csv/
 /.ipynb_checkpoints
 /patches
+**/__pycache__/
+dataset

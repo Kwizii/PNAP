@@ -7,6 +7,7 @@ def init_ldm(device, dtype):
     pipeline = StableDiffusionImg2ImgPipeline.from_pretrained('runwayml/stable-diffusion-v1-5',
                                                               torch_dtype=dtype,
                                                               cache_dir='..',
+                                                              safety_checker=None,
                                                               requires_safety_checker=False,
                                                               local_files_only=True,
                                                               use_safetensors=True).to('cuda:1')
@@ -18,7 +19,6 @@ def init_ldm(device, dtype):
     # change scheduler
     pipeline.scheduler = DDIMScheduler.from_config(pipeline.scheduler.config)
     return pipeline
-
 
 def prompt_embedding(pipeline, prompt, negative_prompt, do_classifier_free_guidance, device):
     prompt_embeds, negative_prompt_embeds = pipeline.encode_prompt(

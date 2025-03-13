@@ -5,6 +5,7 @@ from train_patch import PatchTrainer
 
 
 def main():
+    # 选择测试补丁用于攻击
     patches = ["patches/PNAP/v3tiny-mix-67.png"]
     # patches = []
     # for p1 in os.listdir('patches'):
@@ -18,12 +19,14 @@ def main():
     data = {
         'patch': patches,
     }
+    # 根据配置选择攻击数据集
     # for m in patch_config.patch_configs:
     for m in ['yolov3tiny', 'yolov3tiny-mpii', 'yolov3tiny-mix']:
         map50s = []
         trainer = PatchTrainer(m)
         with torch.no_grad():
             for p in patches:
+                # 计算map
                 patch = trainer.read_image(p)
                 map50, _, _ = trainer.val(patch)
                 map50s.append(map50)

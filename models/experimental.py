@@ -7,6 +7,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 
+from utils.downloads import attempt_download
 
 class Sum(nn.Module):
     """Weighted sum of 2 or more layers https://arxiv.org/abs/1911.09070."""
