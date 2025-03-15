@@ -13,6 +13,10 @@ import torchvision.transforms as T
 from utils.general import xywh2xyxy
 from utils.metrics import box_iou
 
+if os.name == 'nt':  # Windows
+    font_path = "C:\\Windows\\Fonts\\Arial.ttf"
+else:  # Unix/Linux/Mac
+    font_path = "/usr/share/fonts/truetype/freefont/FreeSansBold.ttf"
 
 def sigmoid(x):
     return 1.0 / (math.exp(-x) + 1.)
@@ -327,8 +331,7 @@ def plot_boxes(img, boxes, savename=None, class_names=None, savedir=None, fill=F
         rgb = (255, 0, 0)
         rect_width = 3
         box_width = box[2] * width
-        ttf = ImageFont.truetype("/usr/share/fonts/truetype/freefont/FreeSansBold.ttf",
-                                 max(min(int(box_width * 0.2), 20), 6))
+        ttf = ImageFont.truetype(font_path, max(min(int(box_width * 0.2), 20), 6))
         if len(box) >= 5 and class_names:
             if len(box) == 6:
                 conf = float(box[4])

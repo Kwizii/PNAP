@@ -276,7 +276,7 @@ def boxes2labs(preds):
     labs = []
     max_n_labels = max([len(pred) for pred in preds])
     for pred in preds:
-        pred_lab = torch.cat([pred[:, 5:], pred[:, :4]], dim=1)
+        pred_lab = torch.cat([pred[:, -1:], pred[:, :4]], dim=1)
         pad_size = max_n_labels - pred_lab.shape[0]
         if pad_size > 0:
             pred_lab = torch.cat([pred_lab, torch.ones(pad_size, 5).cuda()])
